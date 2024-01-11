@@ -5,19 +5,18 @@ using ProyectoLibreria.Models.Entidades;
 
 namespace ProyectoLibreria.Controllers
 {
-
-    public class AutoresController : Controller
+    public class EditorialController : Controller
     {
         private readonly LibreriaContext _context;
 
-        public AutoresController(LibreriaContext context)
+        public EditorialController(LibreriaContext context)
         {
             _context = context;
         }
 
-        public async Task<IActionResult> ListadoAutores()
+        public async Task<IActionResult> ListadoEditorial()
         {
-            return View(await _context.Autores.ToListAsync());
+            return View(await _context.Editoriales.ToListAsync());
         }
 
         public IActionResult Crear()
@@ -26,15 +25,15 @@ namespace ProyectoLibreria.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Crear(Autor autor)
+        public async Task<IActionResult> Crear(Editorial editorial)
         {
 
             if (ModelState.IsValid)
             {
-                _context.Add(autor);
+                _context.Add(editorial);
                 await _context.SaveChangesAsync();
-                TempData["AlertMessage"] = "Autor creado exitosamente";
-                return RedirectToAction("ListadoAutores");
+                TempData["AlertMessage"] = "Editorial creado exitosamente";
+                return RedirectToAction("ListadoEditorial");
 
             }
             else
@@ -49,23 +48,23 @@ namespace ProyectoLibreria.Controllers
 
         public async Task<IActionResult> Editar(int? id)
         {
-            if (id == null || _context.Autores == null)
+            if (id == null || _context.Editoriales == null)
             {
                 return NotFound();
             }
 
-            var autor = await _context.Autores.FindAsync(id);
-            if (autor == null)
+            var editorial = await _context.Editoriales.FindAsync(id);
+            if (editorial == null)
             {
                 return NotFound();
             }
-            return View(autor);
+            return View(editorial);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Editar(int id, Autor autor)
+        public async Task<IActionResult> Editar(int id, Editorial editorial)
         {
-            if (id != autor.id_autor)
+            if (id != editorial.id_editorial)
             {
                 return NotFound();
             }
@@ -74,11 +73,11 @@ namespace ProyectoLibreria.Controllers
             {
                 try
                 {
-                    _context.Update(autor);
+                    _context.Update(editorial);
                     await _context.SaveChangesAsync();
-                    TempData["AlertMessage"] = "Autor actualizado " +
+                    TempData["AlertMessage"] = "Editorial actualizado " +
                         "exitosamente!!!";
-                    return RedirectToAction("ListadoAutores");
+                    return RedirectToAction("ListadoEditorial");
                 }
                 catch (Exception ex)
                 {
@@ -87,37 +86,38 @@ namespace ProyectoLibreria.Controllers
                         "al actualizar");
                 }
             }
-            return View(autor);
+            return View(editorial);
         }
 
         public async Task<IActionResult> Eliminar(int? id)
         {
-            if (id == null || _context.Autores == null)
+            if (id == null || _context.Editoriales == null)
             {
                 return NotFound();
             }
 
-            var autor = await _context.Autores
-                .FirstOrDefaultAsync(m => m.id_autor == id);
+            var editorial = await _context.Editoriales
+                .FirstOrDefaultAsync(m => m.id_editorial == id);
 
-            if (autor == null)
+            if (editorial == null)
             {
                 return NotFound();
             }
 
             try
             {
-                _context.Autores.Remove(autor);
+                _context.Editoriales.Remove(editorial);
                 await _context.SaveChangesAsync();
-                TempData["AlertMessage"] = "Autor eliminado exitosamente!!!";
+                TempData["AlertMessage"] = "Editorial eliminado exitosamente!!!";
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(ex.Message, "Ocurrio un error, no se pudo eliminar el registro");
             }
 
-            return RedirectToAction(nameof(ListadoAutores));
+            return RedirectToAction(nameof(ListadoEditorial));
         }
+
         public IActionResult Index()
         {
             return View();
