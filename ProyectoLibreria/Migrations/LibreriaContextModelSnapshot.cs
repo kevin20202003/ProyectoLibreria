@@ -200,11 +200,7 @@ namespace ProyectoLibreria.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_usuario"));
 
-                    b.Property<int>("Rolesid_rol")
-                        .HasColumnType("int");
-
-                    b.Property<string>("cedula")
-                        .IsRequired()
+                    b.Property<string>("URLFotoPerfil")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("contrasena")
@@ -215,20 +211,11 @@ namespace ProyectoLibreria.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("id_rol")
-                        .HasColumnType("int");
-
                     b.Property<string>("nombre_usuario")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("telefono")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("id_usuario");
-
-                    b.HasIndex("Rolesid_rol");
 
                     b.ToTable("Usuarios");
                 });
@@ -313,17 +300,6 @@ namespace ProyectoLibreria.Migrations
                     b.Navigation("Categorias");
 
                     b.Navigation("Editoriales");
-                });
-
-            modelBuilder.Entity("ProyectoLibreria.Models.Entidades.Usuario", b =>
-                {
-                    b.HasOne("ProyectoLibreria.Models.Entidades.Rol", "Roles")
-                        .WithMany()
-                        .HasForeignKey("Rolesid_rol")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("ProyectoLibreria.Models.Entidades.Venta", b =>

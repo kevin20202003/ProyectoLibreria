@@ -67,6 +67,22 @@ namespace ProyectoLibreria.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    id_usuario = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nombre_usuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    contrasena = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    URLFotoPerfil = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.id_usuario);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Libro",
                 columns: table => new
                 {
@@ -105,31 +121,6 @@ namespace ProyectoLibreria.Migrations
                         column: x => x.Editorialesid_editorial,
                         principalTable: "Editoriales",
                         principalColumn: "id_editorial",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Usuarios",
-                columns: table => new
-                {
-                    id_usuario = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rolesid_rol = table.Column<int>(type: "int", nullable: false),
-                    id_rol = table.Column<int>(type: "int", nullable: false),
-                    nombre_usuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    cedula = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    telefono = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    contrasena = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Usuarios", x => x.id_usuario);
-                    table.ForeignKey(
-                        name: "FK_Usuarios_Roles_Rolesid_rol",
-                        column: x => x.Rolesid_rol,
-                        principalTable: "Roles",
-                        principalColumn: "id_rol",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -219,11 +210,6 @@ namespace ProyectoLibreria.Migrations
                 column: "Editorialesid_editorial");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Usuarios_Rolesid_rol",
-                table: "Usuarios",
-                column: "Rolesid_rol");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Ventas_Usuariosid_usuario",
                 table: "Ventas",
                 column: "Usuariosid_usuario");
@@ -234,6 +220,9 @@ namespace ProyectoLibreria.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Detalles");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Libro");
@@ -252,9 +241,6 @@ namespace ProyectoLibreria.Migrations
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
         }
     }
 }
