@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProyectoLibreria.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/font-awesome/css/all.min.css" />
-    @await RenderSectionAsync("Éstilos", required: false)
 </head>
 <body style="background-image: url('/img/libro1.jpg');
             background-size: cover;
@@ -30,7 +29,7 @@
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link active" asp-controller="Home" asp-action="Index">Inicio</a>
+                                <a class="nav-link active" asp-controller="Cliente" asp-action="Cliente">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#"></a>
@@ -40,15 +39,11 @@
                                     Menu
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
-                                    <li><a class="dropdown-item" asp-controller="Libros" asp-action="Lista">Libros</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Editorial" asp-action="ListadoEditorial">Editoriales</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Autores" asp-action="ListadoAutores">Autores</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Categorias" asp-action="ListadoCategoria">Categorias</a></li>
-
+                                    <li><a class="dropdown-item" asp-controller="Libros" asp-action="Compra">Libros</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" asp-controller="Ventas" asp-action="ListadoAutores">Ventas</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Ventas" asp-action="ListadoAutores">Historial</a></li>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="CerrarSesion">Cerrar Sesion</a>
                                 </ul>
                             </li>
@@ -58,13 +53,13 @@
             </div>
         </nav>
     </header>
+    <br>
+    <br>
     <div class="container">
         <main role="main" class="pb-3">
-
-            @RenderBody()
+    @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - ProyectoClase - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -73,6 +68,5 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

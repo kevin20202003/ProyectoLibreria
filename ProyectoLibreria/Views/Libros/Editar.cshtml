@@ -1,0 +1,90 @@
+﻿@model ProyectoLibreria.Models.Entidades.Libro
+@{
+    ViewData["Title"] = "Editar";
+    Layout = null;
+}
+
+<div class=" col-md-12">
+    <div class=" card">
+        <div class=" card-header text-center">
+            <h5> Editar Libro</h5>
+        </div>
+        <div class=" card-body text-center">
+            <form asp-controller="Libros" asp-action="Editar" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IdLibro" />
+                <div class="form-group">
+                    <label></label>
+                    <input asp-for="Titulo" class="form-control" placeholder=" Titulo" required />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <input asp-for="Precio" class="form-control" placeholder=" Precio" required />
+                    <span asp-validation-for="Precio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <input asp-for="year" type="number" class="form-control" placeholder=" Año" required />
+                    <span asp-validation-for="year" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <select asp-for="AutorId" class="form-control" required>
+                        @if (Model.Autores != null)
+                        {
+                            foreach (var autor in Model.Autores)
+                            {
+                                <option value="@autor.Value">@autor.Text</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="AutorId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <select asp-for="CategoriaId" class="form-control" required>
+                        @if (Model.Categorias != null)
+                        {
+                            foreach (var categoria in Model.Categorias)
+                            {
+                                <option value="@categoria.Value">@categoria.Text</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <select asp-for="EditorialId" class="form-control" required>
+                        @if (Model.Editoriales != null)
+                        {
+                            foreach (var editorial in Model.Editoriales)
+                            {
+                                <option value="@editorial.Value">@editorial.Text</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="EditorialId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <input asp-for="FechaRegistro" class="form-control" placeholder="Fecha" required />
+                    <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <input asp-for="URLImagen" type="file" class="form-control" name="Imagen" required />
+                    <span asp-validation-for="URLImagen" class="text-danger"></span>
+                </div>
+                <div class=" card-footer ">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Guardar</button>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal"><i class="fa fa-ban"></i> Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

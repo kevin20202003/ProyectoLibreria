@@ -25,26 +25,31 @@ namespace ProyectoLibreria.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Crear(Categoria categoria)
+        public async Task<IActionResult> Crear(Categoria entidad)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(categoria);
-                await _context.SaveChangesAsync();
-                TempData["AlertMessage"] = "Categoria creada exitosamente";
-                return RedirectToAction("ListadoCategoria");
-
+                if (ModelState.IsValid)
+                {
+                    _context.Add(entidad);
+                    await _context.SaveChangesAsync();
+                    TempData["AlertMessage"] = "Categoria creada exitosamente";
+                    return RedirectToAction("ListadoCategoria");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Los datos de la categoría no son válidos");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ModelState.AddModelError(String.Empty, "Ha ocurrido Un error");
+                // Captura la excepción y realiza algún registro o manejo de errores
+                ModelState.AddModelError(string.Empty, $"Ha ocurrido un error: {ex.Message}");
             }
-
-
 
             return View();
         }
+
 
         public async Task<IActionResult> Editar(int? id)
         {
@@ -53,18 +58,18 @@ namespace ProyectoLibreria.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias.FindAsync(id);
-            if (categoria == null)
+            var entidad = await _context.Categorias.FindAsync(id);
+            if (entidad == null)
             {
                 return NotFound();
             }
-            return View(categoria);
+            return View(entidad);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Editar(int id, Categoria categoria)
+        public async Task<IActionResult> Editar(int id, Categoria entidad)
         {
-            if (id != categoria.idcategoria)
+            if (id != entidad.idcategoria)
             {
                 return NotFound();
             }
@@ -73,7 +78,7 @@ namespace ProyectoLibreria.Controllers
             {
                 try
                 {
-                    _context.Update(categoria);
+                    _context.Update(entidad);
                     await _context.SaveChangesAsync();
                     TempData["AlertMessage"] = "Categoria actualizada " +
                         "exitosamente!!!";
@@ -86,7 +91,7 @@ namespace ProyectoLibreria.Controllers
                         "al actualizar");
                 }
             }
-            return View(categoria);
+            return View(entidad);
         }
 
         public async Task<IActionResult> Eliminar(int? id)
@@ -96,17 +101,17 @@ namespace ProyectoLibreria.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias
+            var entidad = await _context.Categorias
                 .FirstOrDefaultAsync(m => m.idcategoria == id);
 
-            if (categoria == null)
+            if (entidad == null)
             {
                 return NotFound();
             }
 
             try
             {
-                _context.Categorias.Remove(categoria);
+                _context.Categorias.Remove(entidad);
                 await _context.SaveChangesAsync();
                 TempData["AlertMessage"] = "Categoria eliminada exitosamente!!!";
             }

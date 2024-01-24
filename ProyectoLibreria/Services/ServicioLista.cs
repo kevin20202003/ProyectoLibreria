@@ -48,5 +48,39 @@ namespace ProyectoLibreria.Services
             });
             return list;
         }
+
+        public async Task<IEnumerable<SelectListItem>> GetListaEditoriales()
+        {
+            List<SelectListItem> list = await _context.Editoriales.Select(x => new SelectListItem
+            {
+                Text = x.nombre,
+                Value = $"{x.id_editorial}"
+            })
+              .OrderBy(x => x.Text)
+              .ToListAsync();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Seleccione una editorial...]",
+                Value = "0"
+            });
+            return list;
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetListaRoles()
+        {
+            List<SelectListItem> list = await _context.Roles.Select(x => new SelectListItem
+            {
+                Text = x.nombre_rol,
+                Value = $"{x.id_rol}"
+            })
+              .OrderBy(x => x.Text)
+              .ToListAsync();
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Seleccione un rol...]",
+                Value = "0"
+            });
+            return list;
+        }
     }
 }

@@ -32,8 +32,8 @@ namespace ProyectoLibreria.Migrations
                 {
                     idcategoria = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    categoria = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    categoria = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,60 +67,63 @@ namespace ProyectoLibreria.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Libros",
+                columns: table => new
+                {
+                    IdLibro = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    URLImagen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    year = table.Column<int>(type: "int", nullable: false),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AutorId = table.Column<int>(type: "int", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false),
+                    EditorialId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Libros", x => x.IdLibro);
+                    table.ForeignKey(
+                        name: "FK_Libros_Autores_AutorId",
+                        column: x => x.AutorId,
+                        principalTable: "Autores",
+                        principalColumn: "id_autor",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Libros_Categorias_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categorias",
+                        principalColumn: "idcategoria",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Libros_Editoriales_EditorialId",
+                        column: x => x.EditorialId,
+                        principalTable: "Editoriales",
+                        principalColumn: "id_editorial",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
                 {
                     id_usuario = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombre_usuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    nombre_usuario = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     contrasena = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    URLFotoPerfil = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    URLFotoPerfil = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RolId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuarios", x => x.id_usuario);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Libro",
-                columns: table => new
-                {
-                    id_libro = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Categoriasidcategoria = table.Column<int>(type: "int", nullable: false),
-                    id_categoria = table.Column<int>(type: "int", nullable: false),
-                    Autoresid_autor = table.Column<int>(type: "int", nullable: false),
-                    id_autor = table.Column<int>(type: "int", nullable: false),
-                    Editorialesid_editorial = table.Column<int>(type: "int", nullable: false),
-                    id_editorial = table.Column<int>(type: "int", nullable: false),
-                    titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    anio = table.Column<int>(type: "int", nullable: false),
-                    estado = table.Column<bool>(type: "bit", nullable: false),
-                    precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    fecha_registro = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    url_libro = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Libro", x => x.id_libro);
                     table.ForeignKey(
-                        name: "FK_Libro_Autores_Autoresid_autor",
-                        column: x => x.Autoresid_autor,
-                        principalTable: "Autores",
-                        principalColumn: "id_autor",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Libro_Categorias_Categoriasidcategoria",
-                        column: x => x.Categoriasidcategoria,
-                        principalTable: "Categorias",
-                        principalColumn: "idcategoria",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Libro_Editoriales_Editorialesid_editorial",
-                        column: x => x.Editorialesid_editorial,
-                        principalTable: "Editoriales",
-                        principalColumn: "id_editorial",
+                        name: "FK_Usuarios_Roles_RolId",
+                        column: x => x.RolId,
+                        principalTable: "Roles",
+                        principalColumn: "id_rol",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -158,17 +161,17 @@ namespace ProyectoLibreria.Migrations
                     Ventasid_venta = table.Column<int>(type: "int", nullable: false),
                     id_venta = table.Column<int>(type: "int", nullable: false),
                     id_libro = table.Column<int>(type: "int", nullable: false),
-                    Librosid_libro = table.Column<int>(type: "int", nullable: false),
+                    LibrosIdLibro = table.Column<int>(type: "int", nullable: false),
                     cantidad = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Detalles", x => x.id_detalle_venta);
                     table.ForeignKey(
-                        name: "FK_Detalles_Libro_Librosid_libro",
-                        column: x => x.Librosid_libro,
-                        principalTable: "Libro",
-                        principalColumn: "id_libro",
+                        name: "FK_Detalles_Libros_LibrosIdLibro",
+                        column: x => x.LibrosIdLibro,
+                        principalTable: "Libros",
+                        principalColumn: "IdLibro",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Detalles_Ventas_Ventasid_venta",
@@ -182,12 +185,13 @@ namespace ProyectoLibreria.Migrations
                 name: "IX_Categorias_categoria",
                 table: "Categorias",
                 column: "categoria",
-                unique: true);
+                unique: true,
+                filter: "[categoria] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Detalles_Librosid_libro",
+                name: "IX_Detalles_LibrosIdLibro",
                 table: "Detalles",
-                column: "Librosid_libro");
+                column: "LibrosIdLibro");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Detalles_Ventasid_venta",
@@ -195,19 +199,24 @@ namespace ProyectoLibreria.Migrations
                 column: "Ventasid_venta");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Libro_Autoresid_autor",
-                table: "Libro",
-                column: "Autoresid_autor");
+                name: "IX_Libros_AutorId",
+                table: "Libros",
+                column: "AutorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Libro_Categoriasidcategoria",
-                table: "Libro",
-                column: "Categoriasidcategoria");
+                name: "IX_Libros_CategoriaId",
+                table: "Libros",
+                column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Libro_Editorialesid_editorial",
-                table: "Libro",
-                column: "Editorialesid_editorial");
+                name: "IX_Libros_EditorialId",
+                table: "Libros",
+                column: "EditorialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_RolId",
+                table: "Usuarios",
+                column: "RolId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ventas_Usuariosid_usuario",
@@ -222,10 +231,7 @@ namespace ProyectoLibreria.Migrations
                 name: "Detalles");
 
             migrationBuilder.DropTable(
-                name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Libro");
+                name: "Libros");
 
             migrationBuilder.DropTable(
                 name: "Ventas");
@@ -241,6 +247,9 @@ namespace ProyectoLibreria.Migrations
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }

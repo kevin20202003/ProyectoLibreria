@@ -8,9 +8,8 @@ namespace ProyectoLibreria.Models.Entidades
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int idcategoria { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string? categoria { get; set; }
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
 
         [DataType(DataType.MultilineText)]
         public string? descripcion { get; set; }

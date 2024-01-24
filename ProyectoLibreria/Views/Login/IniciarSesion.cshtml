@@ -1,4 +1,5 @@
-﻿﻿@{
+﻿
+@{
     ViewData["Title"] = "Inicio Sesion";
     Layout = null;
 }
@@ -10,48 +11,60 @@
     <meta name="viewport" content="width=device-width" />
     <title>IniciarSesion</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Styles.css">
+    <link rel="stylesheet" href="~/font-awesome/css/all.min.css">
 </head>
 <body>
-
-    <div class="container mt-5 pt-5">
-
-        <div class="row justify-content-center">
-            <div class="col-12 col-xl-4 col-md-6">
-
-                <div class="card">
-                    <div class="card-header">
-                        Iniciar Sesion
-                    </div>
-                    <div class="card-body">
-
-                        <form asp-controller="Login" asp-action="IniciarSesion" method="post">
-
-                            <input class="form-control mb-3" type="text" placeholder="Correo" required name="correo" />
-                            <input class="form-control mb-3" type="password" placeholder="Contraseña" required name="clave" />
-                            <div class="d-grid gap-2 mb-3">
-                                <button class="btn btn-primary" type="submit">Iniciar Sesion</button>
-                            </div>
-                            @if (ViewData["Mensaje"] != null)
-                            {
-
-                                <div class="form-group">
-                                    <div class="alert alert-danger" role="alert">
-                                        @ViewData["Mensaje"]
-                                    </div>
-                                </div>
-                            }
-                            ¿No tienes una cuenta? <a href="@Url.Action("Registro","Login")"> Registraste!</a>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
-            </div>
+    <section class="home">
+        <div class="content">
+            <h2> Welcome!!!</h2>
+            <p>
+                My name is Kevin. I'm 20 years old when I was born. I'm currently studying information technology.
+                I just learned to do fronted so I hope you guys support my tiktok channel. Forever love
+            </p>
         </div>
+        <div class="login">
+            <h2>Log in</h2>
+            <form asp-controller="Login" asp-action="IniciarSesion" method="post" enctype="multipart/form-data">
+                <div class="input-box">
+                    <span class="icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </span>
+                    <input type="email" class="input" placeholder="Enter your email" autocomplete="off" required name="correo">
+                </div>
+                <div class="input-box">
+                    <span class="icon">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" class="input" placeholder="Enter your password" autocomplete="off" required name="clave">
+                    </span>
+                </div>
+                <div class="input-box">
+                    <label for="rol">Selecciona un rol:</label>
+                    <select style="background-color: black;" class="form-control" id="rol" name="rol" required>
+                        <option value="...">...</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Cliente</option>
+                        <!-- Agrega más opciones según tus roles -->
+                    </select>
+                </div>
+                <br><br>
+                <button type="submit"> Log in </button>
+                @if (ViewData["Mensaje"] != null)
+                {
 
-    </div>
+                    <div class="form-group">
+                        <div class="alert alert-danger" role="alert">
+                            @ViewData["Mensaje"]
+                        </div>
+                    </div>
+                }
+                <div class="register-link">
+                    <p>You do not have an account?</p>
+                    <a href="@Url.Action("Registro","Login")"> Sign up now</a>
+                </div>
+            </form>
+        </div>
+    </section>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

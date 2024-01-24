@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoLibreria.Models;
@@ -7,22 +7,19 @@ using System.Security.Claims;
 
 namespace ProyectoLibreria.Controllers
 {
-    public class HomeController : Controller
+    public class ClienteController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ClienteController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public ClienteController(ILogger<ClienteController> logger)
         {
             _logger = logger;
         }
-
-
-        public IActionResult Index()
+        public IActionResult Cliente()
         {
             ClaimsPrincipal claimsUser = HttpContext.User;
             string nombreUsuario = "";
             string fotoPerfil = "";
-            string rol = "";
 
             if (claimsUser.Identity.IsAuthenticated)
             {
@@ -31,28 +28,13 @@ namespace ProyectoLibreria.Controllers
 
                 fotoPerfil = claimsUser.Claims
                     .FirstOrDefault(c => c.Type == "FotoPerfil")?.Value;
-
-                rol = claimsUser.Claims
-                    .FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
             }
 
             ViewData["nombre_usuario"] = nombreUsuario;
-            ViewData["fotoPerfil"] = fotoPerfil;
+            ViewData["FotoPerfil"] = fotoPerfil;
 
-            if (rol == "1")
-            {
-                // Redirigir a la pantalla de administrador
-               
-            }
-            else if (rol == "2")
-            {
-                // Redirigir a la pantalla de cliente
-                return RedirectToAction("Cliente", "Cliente");
-            }
-
-            // Otro caso, mantener la vista por defecto
             return View();
-    }
+        }
 
         public IActionResult Privacy()
         {

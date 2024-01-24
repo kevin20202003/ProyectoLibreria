@@ -8,5 +8,9 @@ namespace ProyectoLibreria.Services
            GetListaAutores();
         Task<IEnumerable<SelectListItem>>
             GetListaCategorias();
+        Task<IEnumerable<SelectListItem>>
+            GetListaEditoriales();
+        Task<IEnumerable<SelectListItem>>
+            GetListaRoles();
     }
 }

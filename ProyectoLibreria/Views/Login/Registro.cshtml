@@ -11,51 +11,79 @@
     <meta name="viewport" content="width=device-width" />
     <title>Registrarse</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Styles.css">
+    <link rel="stylesheet" href="~/font-awesome/css/all.min.css">
 </head>
 <body>
 
-
-    <div class="container mt-5 pt-5">
-
-        <div class="row justify-content-center">
-            <div class="col-12 col-xl-4 col-md-6">
-
-                <div class="card">
-                    <div class="card-header">
-                        Registrate
-                    </div>
-                    <div class="card-body">
-
-                        <form asp-controller="Login" asp-action="Registro" method="post" enctype="multipart/form-data">
-
-                            <input class="form-control mb-3" type="text" placeholder="Nombre Completo" asp-for="nombre_usuario" required />
-                            <input class="form-control mb-3" type="text" placeholder="Correo" required asp-for="correo" />
-                            <input class="form-control mb-3" type="password" placeholder="Contraseña" required asp-for="contrasena" />
-                            <input type="file" class="form-control mb-3" name="Imagen">
-                            <div class="d-grid gap-2 mb-3">
-                                <button class="btn btn-primary" type="submit">Registrate</button>
-                            </div>
-                            @if (ViewData["Mensaje"] != null)
-                            {
-
-                                <div class="form-group">
-                                    <div class="alert alert-danger" role="alert">
-                                        @ViewData["Mensaje"]
-                                    </div>
-                                </div>
-                            }
-                            ¿Ya tienes una cuenta? <a href="@Url.Action("IniciarSesion","Login")"> Iniciar Sesion</a>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
-            </div>
+    <section class="home">
+        <div class="content">
+            <h2> Welcome!!!</h2>
+            <p>
+                My name is Kevin. I'm 20 years old when I was born. I'm currently studying information technology.
+                I just learned to do fronted so I hope you guys support my tiktok channel. Forever love
+            </p>
         </div>
+        <div class="login">
+            <h2>Sign In</h2>
+            <form asp-controller="Login" asp-action="Registro" method="post" enctype="multipart/form-data">
+                <div class="input-box">
+                    <span class="icon">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </span>
+                    <input type="text" class="input" placeholder="Enter full name" autocomplete="off" asp-for="nombre_usuario" required>
+                </div>
+                <div class="input-box">
+                    <span class="icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </span>
+                    <input type="text" class="input" placeholder="Enter your email" autocomplete="off" required asp-for="correo">
+                </div>
+                <div class="input-box">
+                    <span class="icon">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" class="input" placeholder="Enter your password" autocomplete="off" required asp-for="contrasena">
+                    </span>
+                </div>
+                <div class="input-box">
+                    <span class="icon">
+                        <i class="fa-solid fa-lock"></i>
+                        <select asp-for="RolId" class="form-control" style="background-color: black;" required>
+                            @if (Model.Roles != null)
+                            {
+                                foreach (var rol in Model.Roles)
+                                {
+                                    <option value="@rol.Value" selected="@Equals(rol.Value, Model.RolId)">@rol.Text</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="">No roles available</option>
+                            }
+                        </select>
+                    </span>
+                </div>
+                <div class="input-box">
+                    <input type="file" class="form-control" name="Imagen">
+                </div>
+                <br><br>
+                <button type="submit"> Sign up </button>
+                @if (ViewData["Mensaje"] != null)
+                {
 
-    </div>
+                    <div class="form-group">
+                        <div class="alert alert-danger" role="alert">
+                            @ViewData["Mensaje"]
+                        </div>
+                    </div>
+                }
+                <div class="register-link">
+                    <p>do you already have an account?</p>
+                    <a href="@Url.Action("IniciarSesion","Login")"> Log in</a>
+                </div>
+            </form>
+        </div>
+    </section>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

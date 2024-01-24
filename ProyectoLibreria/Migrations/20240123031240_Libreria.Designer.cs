@@ -12,7 +12,7 @@ using ProyectoLibreria.Models;
 namespace ProyectoLibreria.Migrations
 {
     [DbContext(typeof(LibreriaContext))]
-    [Migration("20240115174324_Libreria")]
+    [Migration("20240123031240_Libreria")]
     partial class Libreria
     {
         /// <inheritdoc />
@@ -58,16 +58,17 @@ namespace ProyectoLibreria.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idcategoria"));
 
                     b.Property<string>("categoria")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("descripcion")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("idcategoria");
 
                     b.HasIndex("categoria")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[categoria] IS NOT NULL");
 
                     b.ToTable("Categorias");
                 });
@@ -80,7 +81,7 @@ namespace ProyectoLibreria.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_detalle_venta"));
 
-                    b.Property<int>("Librosid_libro")
+                    b.Property<int>("LibrosIdLibro")
                         .HasColumnType("int");
 
                     b.Property<int>("Ventasid_venta")
@@ -97,7 +98,7 @@ namespace ProyectoLibreria.Migrations
 
                     b.HasKey("id_detalle_venta");
 
-                    b.HasIndex("Librosid_libro");
+                    b.HasIndex("LibrosIdLibro");
 
                     b.HasIndex("Ventasid_venta");
 
@@ -123,59 +124,46 @@ namespace ProyectoLibreria.Migrations
 
             modelBuilder.Entity("ProyectoLibreria.Models.Entidades.Libro", b =>
                 {
-                    b.Property<int>("id_libro")
+                    b.Property<int>("IdLibro")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_libro"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdLibro"));
 
-                    b.Property<int>("Autoresid_autor")
+                    b.Property<int>("AutorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Categoriasidcategoria")
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Editorialesid_editorial")
+                    b.Property<int>("EditorialId")
                         .HasColumnType("int");
 
-                    b.Property<int>("anio")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("estado")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("fecha_registro")
+                    b.Property<DateTime>("FechaRegistro")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("id_autor")
-                        .HasColumnType("int");
-
-                    b.Property<int>("id_categoria")
-                        .HasColumnType("int");
-
-                    b.Property<int>("id_editorial")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("precio")
+                    b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("titulo")
+                    b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("url_libro")
-                        .IsRequired()
+                    b.Property<string>("URLImagen")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id_libro");
+                    b.Property<int>("year")
+                        .HasColumnType("int");
 
-                    b.HasIndex("Autoresid_autor");
+                    b.HasKey("IdLibro");
 
-                    b.HasIndex("Categoriasidcategoria");
+                    b.HasIndex("AutorId");
 
-                    b.HasIndex("Editorialesid_editorial");
+                    b.HasIndex("CategoriaId");
 
-                    b.ToTable("Libro");
+                    b.HasIndex("EditorialId");
+
+                    b.ToTable("Libros");
                 });
 
             modelBuilder.Entity("ProyectoLibreria.Models.Entidades.Rol", b =>
@@ -203,6 +191,9 @@ namespace ProyectoLibreria.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_usuario"));
 
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
                     b.Property<string>("URLFotoPerfil")
                         .HasColumnType("nvarchar(max)");
 
@@ -215,10 +206,11 @@ namespace ProyectoLibreria.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("nombre_usuario")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id_usuario");
+
+                    b.HasIndex("RolId");
 
                     b.ToTable("Usuarios");
                 });
@@ -263,7 +255,7 @@ namespace ProyectoLibreria.Migrations
                 {
                     b.HasOne("ProyectoLibreria.Models.Entidades.Libro", "Libros")
                         .WithMany()
-                        .HasForeignKey("Librosid_libro")
+                        .HasForeignKey("LibrosIdLibro")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -280,29 +272,40 @@ namespace ProyectoLibreria.Migrations
 
             modelBuilder.Entity("ProyectoLibreria.Models.Entidades.Libro", b =>
                 {
-                    b.HasOne("ProyectoLibreria.Models.Entidades.Autor", "Autores")
+                    b.HasOne("ProyectoLibreria.Models.Entidades.Autor", "Autor")
                         .WithMany()
-                        .HasForeignKey("Autoresid_autor")
+                        .HasForeignKey("AutorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProyectoLibreria.Models.Entidades.Categoria", "Categorias")
+                    b.HasOne("ProyectoLibreria.Models.Entidades.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("Categoriasidcategoria")
+                        .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProyectoLibreria.Models.Entidades.Editorial", "Editoriales")
+                    b.HasOne("ProyectoLibreria.Models.Entidades.Editorial", "Editorial")
                         .WithMany()
-                        .HasForeignKey("Editorialesid_editorial")
+                        .HasForeignKey("EditorialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Autores");
+                    b.Navigation("Autor");
 
-                    b.Navigation("Categorias");
+                    b.Navigation("Categoria");
 
-                    b.Navigation("Editoriales");
+                    b.Navigation("Editorial");
+                });
+
+            modelBuilder.Entity("ProyectoLibreria.Models.Entidades.Usuario", b =>
+                {
+                    b.HasOne("ProyectoLibreria.Models.Entidades.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rol");
                 });
 
             modelBuilder.Entity("ProyectoLibreria.Models.Entidades.Venta", b =>

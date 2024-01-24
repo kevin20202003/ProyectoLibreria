@@ -13,9 +13,9 @@ namespace ProyectoLibreria.Services
             _context = context;
         }
 
-        public async Task<Usuario> GetUsuario(string correo, string clave)
+        public async Task<Usuario> GetUsuario(string correo, string clave, int rol)
         {
-            Usuario usuario = await _context.Usuarios.Where(u => u.correo == correo && u.contrasena == clave).FirstOrDefaultAsync();
+            Usuario usuario = await _context.Usuarios.Where(u => u.correo == correo && u.contrasena == clave && u.RolId == rol).FirstOrDefaultAsync();
 
             return usuario;
         }

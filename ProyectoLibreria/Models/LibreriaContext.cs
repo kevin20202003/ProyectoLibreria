@@ -20,6 +20,7 @@ namespace ProyectoLibreria.Models
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Venta> Ventas { get; set; }
+        public DbSet<Libro> Libros { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
